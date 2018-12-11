@@ -1,10 +1,10 @@
 <?php 
 	
-	if(isset($utilisateur))
+	/*if(isset($utilisateur)) pas de test ici
 	{
 		if($utilisateur->getRole()->getId() == 2)
 			header('Location: ?page=adminhome');
-	}	
+	}*/
 
 	// base repertory name 
 	$repertory = dirname(__DIR__, 1) . DIRECTORY_SEPARATOR;

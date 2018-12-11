@@ -62,56 +62,7 @@
 		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 	</head>
 	<body>
-		<p><a name="qcm"></a></p>
-
-		<table>
-			<tr>
-				<td id="prem" class="titrebig" style="background-color: black;"><?php echo $titre_qcm; ?><a class="retour" href="?page=accueil">&lt;Retour</a></td>
-			</tr>
-		</table>
-
-		<table id="quest">
-	        <tr>
-				<td class="letexte">
-					<p class="letexte">
-						Vieuillez répondre aux qcm en séléctionnant les reponses juste. Attention il peut y avoir plusieurs bonnes réponses.<br>
-						- 1 Bonne réponse rapporte 1 point<br>
-						- 1 Mauvaise réponse rapport -0 points
-						<br>
-						bon courage
-					</p>
-				</td>
-	        </tr> 
-		</table>
-		               
-		<div id="questionnaire">
-			<?php
-				if(isset($questions))
-				{	
-					$i = 0;
-					foreach ($questions as $key => $uneQuestion) {?>
-						<div class="question" id=<?php echo '"q' . $i . '"'; ?>> 
-						  	<p class="letexte"><?php echo $key .') '. $uneQuestion['que_libelle']; ?></p>
-						  	<?php
-						  	if(count($uneQuestion['reponses']) > 0) { // n'est pas un vrais ou faux
-						  		foreach($uneQuestion['reponses'] as $key => $uneReponse) {
-									?>
-									<input type="checkbox" class="check" value="0" style="margin-bottom: 10px;"><?php echo ' ' . $uneReponse['rep_libelle']; ?><br>
-									<?php
-						  		}
-						  	} else {?>
-							  	<input type="radio" name=<?php echo '"choix' . $i . '"'; ?> class="true" value="1" style="margin-bottom: 10px;" unchecked>vrais<br>
-							 	<input type="radio" name=<?php echo '"choix' . $i . '"'; ?> class="false" value="0" style="margin-bottom: 10px;">faux<br>
-						  		<?php
-						  	}?>
-						</div>
-					<?php
-						$i++;
-					}
-				}
-			?>
-	   		<input class="bouton" onclick="verif();" value="Soumettre" name="B3" type="button"/>
-		</div>
+		<?= $qcm_page ?>
 		<script type="text/javascript">
 			function verif() {
 				var points = 0;
@@ -168,6 +119,5 @@
 				return true;
 			}
 		</script>
-
 	</body>
 </html>

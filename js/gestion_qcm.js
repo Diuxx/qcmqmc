@@ -11,7 +11,7 @@ function aj_afficherQcm() {
 			// --*{qcm_id: "1", qcm_libelle: "test DQL", qcm_active: "0", qcm_fdate: "2018-11-22", fk_qcm_utilisateur: "1"}
 			var output = '';
 			output += `<tr>
-                        <td colspan="5" style="color: red;border-bottom: 1px black;text-align: center;">Liste des Qcm disponible</td>
+                        <td colspan="6" style="color: red;border-bottom: 1px black;text-align: center;">Liste des Qcm disponible</td>
                        </tr>`;
 
 			for(let i=0; i< result.length; i++) {
@@ -37,6 +37,14 @@ function aj_afficherQcm() {
 								<input type="hidden" name="modifier" value="${unQcm.qcm_id}">
 								<button type="submit" class="btn btn-link" value="Modifier">Modifier</button>
 							</form>
+						</td>
+						<td>
+							<form action="?page=qcm" method="post" target="BLANK">
+		        				<input class="hidden" type="text" name="titre" value="${unQcm.qcm_libelle}">
+		        				<input class="hidden" type="text" name="qcm" value="${unQcm.qcm_id}">
+		        				<input class="hidden" type="text" name="id" value="-1">
+								<input type="submit" class="btn btn-info btn-xs" value="Visualiser"> 
+							</post>
 						</td>
                         <td><a href="#" onclick="supprimerQcm('${unQcm.qcm_id}')"><span class="glyphicon glyphicon-trash" style="color: red;"></span></a></td>
                         `;

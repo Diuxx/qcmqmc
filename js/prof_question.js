@@ -309,10 +309,14 @@ function afficherLesQuestions(result, nombre, pas) {
         </div>
             </td>
             <td align="center">
-            	
 	    		<button type="button" class="btn btn-xs">${result[key].theme.libelle} <span class="badge">${result[key].auteur.nom}</span></button>
             </td>
-            <td><a href="#">Modifier</a></td>
+            <td>
+            	<form method="post">
+            		<input type="hidden" name="modifier" value="${result[key].question.id}">
+            		<button type="submit" class="btn btn-link" value>Modifier</button>
+            	</form>
+            </td>
             <td><a href="#"><span class="glyphicon glyphicon-trash" style="color: red;" onclick="confirmDeleteQuestion('${result[key].question.id}')"></span></a></td>
             </tr>`;
 	}
@@ -413,4 +417,35 @@ function ajouterQuestionBdd() {
 		},
 		dataType: "json"
 	});		
+}
+
+// --
+function modifierQuestion(id) {
+	alert('on va modifier une question ici id : ' + id);
+
+	// affichage de l'interface
+	$("#panel-ajout-question").css('display', 'block');
+
+	// affichage du bouton modifier
+	$("#modifier-question").css('display', 'block');
+
+	// masquage du bouton créer question
+	$("#add-question").css('display', 'none');
+
+
+	data = { id : id };
+	// ajax récupération des éléments de la question.
+	// --
+	$.ajax({
+		url: "ajax/question_get_unique.php",
+		data: data,
+		async: true,
+		type: "get",
+		success: function(result) {
+			// --
+			console.log("question" + result);
+		},
+		dataType: "json"
+	});	
+
 }

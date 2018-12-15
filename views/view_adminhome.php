@@ -91,53 +91,51 @@
 				                        <div class="row">
 					                        <div class="col-md-12" id="add-reponses">
 					                        	
-<?php
-
-if(isset($qid)) {
-	$nbReponse = 1;
-	foreach ($question['reponse'] as $key => $reponse) {
-		# code...
-		?>
-		<div class="form-group" id=<?php echo '"repNb' . $nbReponse . '"'; ?>>
-			<div class="input-group">
-	            <div class="input-group-addon">
-	                <div class="input-group-text">
-	                	<?php
-	                	if($reponse['rep_vrais'] == 1) {
-	                		?>
-							<span><input type="checkbox" id=<?php echo '"checkbox-reponse' . $nbReponse . '"'; ?> checked> vrais</span>
-	                		<?php
-	                	} else {
-	                		?>
-	                		<span><input type="checkbox" id=<?php echo '"checkbox-reponse' . $nbReponse . '"'; ?>> vrais</span>
-	                		<?php
-	                	}?>
-	                </div>
-	            </div>
-	            <input type="text" id=<?php echo '"text-reponse' . $nbReponse . '"'; ?> class="form-control" placeholder=<?php echo '"Reponse n°' . $nbReponse . '"'; ?> value=<?php echo '"' . $reponse['rep_libelle'] . '"'; ?>>
-	            <div class="input-group-addon">
-	            </div>    
-	        </div>
-		</div>
-		<?php
-		$nbReponse += 1;
-	}	
-} else {
-	?>
-	<div class="form-group">
-		<div class="input-group">
-            <div class="input-group-addon">
-                <div class="input-group-text">
-                    <span><input type="checkbox" name="checkbox-reponse" id="checkbox-reponse1"> vrais</span>
-                </div>
-            </div>
-            <input type="text" name="text-reponse" id="text-reponse1" class="form-control" placeholder="Question n°1">
-        </div>
-	</div>
-	<?php
-}
-
-					                        	?>
+											<?php
+											if(isset($qid)) {
+												$nbReponse = 1;
+												foreach ($question['reponse'] as $key => $reponse) {
+													# code...
+													?>
+													<div class="form-group" id=<?php echo '"repNb' . $nbReponse . '"'; ?>>
+														<div class="input-group">
+												            <div class="input-group-addon">
+												                <div class="input-group-text">
+												                	<?php
+												                	if($reponse['rep_vrais'] == 1) {
+												                		?>
+																		<span><input type="checkbox" id=<?php echo '"checkbox-reponse' . $nbReponse . '"'; ?> checked> vrais</span>
+												                		<?php
+												                	} else {
+												                		?>
+												                		<span><input type="checkbox" id=<?php echo '"checkbox-reponse' . $nbReponse . '"'; ?>> vrais</span>
+												                		<?php
+												                	}?>
+												                </div>
+												            </div>
+												            <input type="text" id=<?php echo '"text-reponse' . $nbReponse . '"'; ?> class="form-control" placeholder=<?php echo '"Reponse n°' . $nbReponse . '"'; ?> value=<?php echo '"' . $reponse['rep_libelle'] . '"'; ?>>
+												            <div class="input-group-addon">
+												            </div>    
+												        </div>
+													</div>
+													<?php
+													$nbReponse += 1;
+												}	
+											} else {
+												?>
+												<div class="form-group">
+													<div class="input-group">
+											            <div class="input-group-addon">
+											                <div class="input-group-text">
+											                    <span><input type="checkbox" name="checkbox-reponse" id="checkbox-reponse1"> vrais</span>
+											                </div>
+											            </div>
+											            <input type="text" name="text-reponse" id="text-reponse1" class="form-control" placeholder="Question n°1">
+											        </div>
+												</div>
+												<?php
+											}
+					                        ?>
 					                        </div>                        
 				                        </div>
 				                        <div class="row text-center" id="button-form" style="margin-top: 10px;">
@@ -186,5 +184,14 @@ if(isset($qid)) {
 		    </div>
 		</div>
 		<script src="js/prof_question.js"></script>
+		<?php
+			if(isset($qid)) {
+				?>
+				<script type="text/javascript">
+					var nb_reponse = <?php echo count($question['reponse']); ?>
+				</script>
+				<?php
+			}
+		?>
 	</div>
 </div>

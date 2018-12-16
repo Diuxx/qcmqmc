@@ -28,9 +28,9 @@
 		                        <button type="button" class="btn btn-info" id="newQuestion">Nouvelle Question</button>
 		                        <!-- créer une nouvelle question -->
 		                        <?php if(isset($qid)) {?>
-									<div class="col-lg-5 col-md-offset-5" id="panel-ajout-question" style="border: 1px solid #e0e0e0;">
+									<div class="col-lg-7 col-md-offset-5" id="panel-ajout-question" style="border: 1px solid #e0e0e0;">
 		                        <?php } else { ?>
-									<div class="col-lg-5 col-md-offset-5" id="panel-ajout-question" style="display: none; border: 1px solid #e0e0e0;">
+									<div class="col-lg-7 col-md-offset-5" id="panel-ajout-question" style="display: none; border: 1px solid #e0e0e0;">
 		                        <?php } ?>
 				                    <form class="form-horizontal" id="form-form" style="margin: 5px;">
 
@@ -41,7 +41,7 @@
 					                                <?php 
 					                                	if(isset($qid)) {
 					                                		?> 
-					                                		<input type="hidden" name="qid" value=<?php echo '"' . $qid . '"'; ?>>
+					                                		<input type="hidden" name="qid" id="qid-modifier" value=<?php echo '"' . $qid . '"'; ?>>
 					                                		<?php
 					                                	}
 					                                ?>
@@ -53,27 +53,34 @@
 				                        </div>
 			                            <div class="form-group col-sm-4">
 			                            	<label for="select-theme"><i>Theme :</i></label>
+		                                    <!--
 		                                    <select class="form-control input-sm select-theme-noajax" name="select-theme" id="select-theme-noajax">
+		                                    -->
+		                                    <select class="form-control input-sm select-theme" name="select-theme" id="select-theme">
 		                                    	<!-- liste des theme -->
 		                                    	<?php
 													if(isset($qid)) {
 														$the_id = $question['theme']['id'];
 													}
-
 		                                    		$sql = 'SELECT * FROM `qcm_theme` WHERE 1';
 		                                    		$prepared_request = $pdo->prepare($sql);
 													$prepared_request->execute();
-
 													$result = $prepared_request->fetchAll(PDO::FETCH_ASSOC);
+
+													$pos = 0;
 													foreach ($result as $key => $theme) {
 														
+														if($pos == 0 && !isset($the_id)) { // on prend le 1er theme et on le met par défaut?
+															$the_id = $theme['the_id'];
+														}
+
 														if( $the_id == $theme['the_id']) {
 														?>
 														<option value=<?php echo '"' . $theme['the_id'] . '"'; ?> selected="selected"><?php echo ucfirst($theme['the_libelle']); ?></option>
 														<?php
 														} else {
 														?>
-														<option value=<?php echo '"' . $theme['the_id'] . '"'; ?>><?php echo $theme['the_libelle']; ?></option>
+														<option value=<?php echo '"' . $theme['the_id'] . '"'; ?>><?php echo ucfirst($theme['the_libelle']); ?></option>
 														<?php
 														}
 													}
@@ -84,7 +91,13 @@
 				                        <div class="row">
 				                            <div class="col-sm-12" style="margin-bottom: 10px;">
 				                                <div class="checkbox">
-				                                    <label><input type="checkbox" name="checkbox-vraisfaux" id="checkbox-vraisfaux"> Question de type vrais ou faux</label>
+												<?php
+												if(isset($qid)) {
+													?><label><input type="checkbox" name="checkbox-vraisfaux" id="checkbox-vraisfaux"  <?php echo (!isset($question['reponse'])) ? 'checked':''; ?>> Question de type vrais ou faux</label><?php
+												} else {
+													?><label><input type="checkbox" name="checkbox-vraisfaux" id="checkbox-vraisfaux"> Question de type vrais ou faux</label><?php
+												}
+												?>
 				                                </div>
 				                            </div>
 				                        </div>
@@ -93,34 +106,46 @@
 					                        	
 											<?php
 											if(isset($qid)) {
-												$nbReponse = 1;
-												foreach ($question['reponse'] as $key => $reponse) {
-													# code...
+												
+												if(isset($question['reponse'])) { // n'est pas un vrais faux !
+													$nbReponse = 1;
+													foreach ($question['reponse'] as $key => $reponse) {
+														# code...
+														?>
+														<div class="form-group" id=<?php echo '"repNb' . $nbReponse . '"'; ?>>
+															<div class="input-group">
+													            <div class="input-group-addon">
+													                <div class="input-group-text">
+													                	<?php
+													                	if($reponse['rep_vrais'] == 1) {
+													                		?>
+																			<span><input type="checkbox" id=<?php echo '"checkbox-reponse' . $nbReponse . '"'; ?> checked> vrais</span>
+													                		<?php
+													                	} else {
+													                		?>
+													                		<span><input type="checkbox" id=<?php echo '"checkbox-reponse' . $nbReponse . '"'; ?>> vrais</span>
+													                		<?php
+													                	}?>
+													                </div>
+													            </div>
+													            <input type="text" id=<?php echo '"text-reponse' . $nbReponse . '"'; ?> class="form-control" placeholder=<?php echo '"Reponse n°' . $nbReponse . '"'; ?> value=<?php echo '"' . $reponse['rep_libelle'] . '"'; ?>>
+													            <div class="input-group-addon">
+													            </div>    
+													        </div>
+														</div>
+														<?php
+														$nbReponse += 1;
+													}
+												} else { // vrais / faux
 													?>
-													<div class="form-group" id=<?php echo '"repNb' . $nbReponse . '"'; ?>>
-														<div class="input-group">
-												            <div class="input-group-addon">
-												                <div class="input-group-text">
-												                	<?php
-												                	if($reponse['rep_vrais'] == 1) {
-												                		?>
-																		<span><input type="checkbox" id=<?php echo '"checkbox-reponse' . $nbReponse . '"'; ?> checked> vrais</span>
-												                		<?php
-												                	} else {
-												                		?>
-												                		<span><input type="checkbox" id=<?php echo '"checkbox-reponse' . $nbReponse . '"'; ?>> vrais</span>
-												                		<?php
-												                	}?>
-												                </div>
-												            </div>
-												            <input type="text" id=<?php echo '"text-reponse' . $nbReponse . '"'; ?> class="form-control" placeholder=<?php echo '"Reponse n°' . $nbReponse . '"'; ?> value=<?php echo '"' . $reponse['rep_libelle'] . '"'; ?>>
-												            <div class="input-group-addon">
-												            </div>    
-												        </div>
+													<div class="radio">
+													  	<label><input type="radio" id="optradio1" name="optradio" <?php echo ($question['question']['vrais'] == '1') ? 'checked':''; ?>>Vrais</label>
+													</div>
+													<div class="radio">
+													  	<label><input type="radio" id="optradio2" name="optradio" <?php echo ($question['question']['vrais'] == '0') ? 'checked':''; ?>>Faux</label>
 													</div>
 													<?php
-													$nbReponse += 1;
-												}	
+												}
 											} else {
 												?>
 												<div class="form-group">
@@ -154,6 +179,16 @@
 												?>
 												<button type="button" class="btn btn-default" onclick="enleverUneReponse()" id="delete-last-reponse"><span class="glyphicon glyphicon-minus"></span></button>
 											</div>
+
+												<?php
+													if(isset($qid)) {
+													?>	
+														<form action=""# method="post">
+															<button type="submit" class="btn btn-danger" name="modifier-question" id="modifier-question">annuler</button>
+														</form>
+													<?php
+													}											
+												?>
 				                        </div>
 				                    </form>
 				                </div>   

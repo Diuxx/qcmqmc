@@ -28,7 +28,7 @@
 			$pdo->rollback();
 			throw $e;
 		}
-		echo json_encode(['1' => 'Question supprimé !']);
+		echo json_encode(['1' => 'La question à bien été supprimé !']);
 		exit;
 	} 
 	// error here!

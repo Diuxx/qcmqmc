@@ -34,7 +34,7 @@
 		$prepared_request->execute( array(':id' => $id));
 
 		if(count($prepared_request->fetchAll(PDO::FETCH_ASSOC)) == 0) {
-			echo json_encode(['1' => 'Le QCM à bien été supprimé !']);
+			echo json_encode(['1' => 'Le QCM a bien été supprimé !']);
 			exit;
 		}
 

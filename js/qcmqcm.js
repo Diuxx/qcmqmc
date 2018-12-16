@@ -168,6 +168,7 @@ function createQcm(ref = 1) {
 	var titre_qcm = $("#titre-qcm").val();
 	var date_qcm = $("#date-qcm").val();
 	var active_qcm = (($("#active-qcm").prop("checked") == true) ? 1:0);
+	var auteur = $("#id-user").val(); // debug
 
 	$('.unequestion').each(function(index, obj)
 	{	
@@ -186,7 +187,7 @@ function createQcm(ref = 1) {
 	data = {
 		titre : titre_qcm,
 		question : JSON.stringify(tableau_de_question),
-		auteur : 1,
+		auteur : auteur,
 		date : date_qcm,
 		active : active_qcm
 	};

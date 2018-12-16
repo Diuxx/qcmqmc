@@ -61,7 +61,7 @@
 			}
 			
 			$array[] = $question;
-			var_dump($question);
+			//var_dump($question);
 		}		
 	}
 ?>

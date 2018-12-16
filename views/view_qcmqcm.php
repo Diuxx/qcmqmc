@@ -8,10 +8,12 @@
 	        <!-- code code code -->
 	    </div>
 
+		<input type="hidden" name="" id="id-user" value=<?php echo '"' . $utilisateur->getId() . '"'; ?>>
+
 		<div class="col-lg-8 col-lg-offset-1">
 		    <div class="container-fluid">
 		        <div class="row">
-		            <div class="col-sm-6 col-lg-offset-0" id="qcm-question" style="max-height: ">
+		            <div class="col-sm-6 col-lg-offset-0" id="qcm-question">
 		                <!-- recherche par themes -->
 		                <div class="row">
 		                    <div class="col-md-12" style="padding-top: 10px;padding-bottom: 10px;">
@@ -26,16 +28,18 @@
 		                            </div>
 		                        </div>
 		                    </div>
-		                </div> 
-		                <table class="table">
-		                    <tbody id="list-question">
-		                        <!-- liste des question (chargement) -->
-		                        <tr>
-		                            <td>Informatique général</td>
-		                            <td><button type="submit" class="btn btn-primary btn-xs">ajouter >></button></td>
-		                        </tr>
-		                    </tbody>
-		                </table>            
+		                </div>
+		                <div style="max-height: 700px;overflow: auto;">
+			                <table class="table">
+			                    <tbody id="list-question">
+			                        <!-- liste des question (chargement) -->
+			                        <tr>
+			                            <td>Informatique général</td>
+			                            <td><button type="submit" class="btn btn-primary btn-xs">ajouter >></button></td>
+			                        </tr>
+			                    </tbody>
+			                </table>  		                	
+		                </div>          
 		            </div>
 
 		            <div class="col-sm-6 col-lg-offset-0" id="qcm-nouveau-qcm" style="border: 1px solid #e0e0e0;">

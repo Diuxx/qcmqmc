@@ -111,11 +111,41 @@ $(document).ready(function() {
 	  	$("#add-reponses").append(output);
 	});
 
+	// modifier une question
+	$("#modifier-question").on("click", function(e) {
+		// --
+	    if(!confirm("Etes-vous sûr de vouloir modifier cette question ?")) {
+	        return 1;
+	    }
+	    // récupération de l'id de la question.
+	    var qid = $('#qid-modifier').val();
+		$.ajax({
+			url: "ajax/remove_question.php",
+			async: true,
+			data: { id: qid },
+			type: "post",
+			success: function(result) {
+				afficherMessage(2, result[1]);
+				ajouterQuestionBdd();
+			},
+			dataType: "json"
+		});
+	    //afficherMessage(2, "La question à été modifier avec succes ! (" + qid + ")");
+	});
+
 
 	// Changement d'état de la checkbox permetant de choisir le type de questions
 	$("#checkbox-vraisfaux").change(function() {
 		if($("#checkbox-vraisfaux").prop('checked'))
 		{
+
+			if(!confirm("Etes-vous sûr de vouloir passer à une réponse de type vrais faux ?\nVous allez perdre les réponses associer à une question de type multi réponses.")) {
+
+				$("#checkbox-vraisfaux").prop('checked', false);
+
+				return false;
+			}
+
 			console.log("affichage du vrais ou faux");
 			var output = `
 			<div class="radio">
@@ -152,11 +182,7 @@ $(document).ready(function() {
 		  	$("#add-reponses").html(output);
 		}
 	});
-
-
-
-	afficherMessage(2, "Bienvenue sur Cette magnifique interface dédié à la création de qcm");
-
+	afficherMessage(2, '<div style="text-align: center;">Bienvenue sur Cette interface web dédié à la création de Qcm</div>');
 });
 
 // requete ajax ajoutant un theme à la base de donnée
@@ -271,7 +297,7 @@ function afficherLesQuestions(result, nombre, pas) {
 	// Boucle sur les questions.
 	for(var key=position; key<max; key++)
 	{
-		console.log(result[key]);
+		//console.log(result[key]);
 		output += 
 		`<tr>
             <td><a data-toggle="collapse" href="#collapse${result[key].question.id}" aria-controls="collapseExample">${escapeHtml(result[key].question.libelle)}</a>
@@ -353,7 +379,7 @@ function afficherLesThemes(themes) {
 		output += `<option value="${themes[i].the_id}">${ucfirst(themes[i].the_libelle)}</option>`;
 		output_theme2 += `<option value="${themes[i].the_id}">${ucfirst(themes[i].the_libelle)}</option>`;
 	}
-	$(".select-theme").html(output);
+	//$(".select-theme").html(output);
 	$(".select-theme2").html(output_theme2);
 }
 
@@ -417,35 +443,4 @@ function ajouterQuestionBdd() {
 		},
 		dataType: "json"
 	});		
-}
-
-// --
-function modifierQuestion(id) {
-	alert('on va modifier une question ici id : ' + id);
-
-	// affichage de l'interface
-	$("#panel-ajout-question").css('display', 'block');
-
-	// affichage du bouton modifier
-	$("#modifier-question").css('display', 'block');
-
-	// masquage du bouton créer question
-	$("#add-question").css('display', 'none');
-
-
-	data = { id : id };
-	// ajax récupération des éléments de la question.
-	// --
-	$.ajax({
-		url: "ajax/question_get_unique.php",
-		data: data,
-		async: true,
-		type: "get",
-		success: function(result) {
-			// --
-			console.log("question" + result);
-		},
-		dataType: "json"
-	});	
-
 }

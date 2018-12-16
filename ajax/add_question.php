@@ -64,5 +64,5 @@
 	}
 
 	// résultat
-	echo json_encode($arrayName = array('0' => 'success'));
+	echo json_encode($arrayName = array('0' => 'La question a été ajouté avec succès !'));
 ?>

@@ -14,7 +14,7 @@ function aj_afficherQcm() {
                         <td colspan="6" style="color: red;border-bottom: 1px black;text-align: center;">Liste des Qcm disponible</td>
                        </tr>`;
 
-			for(let i=0; i< result.length; i++) {
+			for(var i=0; i< result.length; i++) {
 				var unQcm = result[i];	
 				console.log(unQcm);
 
@@ -33,7 +33,7 @@ function aj_afficherQcm() {
                         <td>${unQcm.qcm_libelle}</td>
                         <td><input type="text" class="datepicker" value="${unQcm.qcm_fdate}" onchange="changeDate(this, '${unQcm.qcm_id}')" style="width:75px;"></td>
                         <td>
-							<form action="?page=qcmqcm" method="post">
+                        	<form action="?page=qcmqcm" method="post">
 								<input type="hidden" name="modifier" value="${unQcm.qcm_id}">
 								<button type="submit" class="btn btn-link" value="Modifier">Modifier</button>
 							</form>
@@ -44,7 +44,7 @@ function aj_afficherQcm() {
 		        				<input class="hidden" type="text" name="qcm" value="${unQcm.qcm_id}">
 		        				<input class="hidden" type="text" name="id" value="-1">
 								<input type="submit" class="btn btn-info btn-xs" value="Visualiser"> 
-							</post>
+							</form>
 						</td>
                         <td><a href="#" onclick="supprimerQcm('${unQcm.qcm_id}')"><span class="glyphicon glyphicon-trash" style="color: red;"></span></a></td>
                         `;

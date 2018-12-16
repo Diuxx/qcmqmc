@@ -40,7 +40,7 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <form method="post">
-                                        <button type="submit" name="deco" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</button>
+                                        <button type="submit" name="deco" class="btn btn-link"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</button>
                                     </form>
                                 </li>
                             </ul>

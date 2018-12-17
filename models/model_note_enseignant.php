@@ -48,7 +48,7 @@
 					$nb_question_max = $nombre_de_question[0]['nb_question'];
 				}
 
-				array_push($liste_des_etudiant_qcm[$key]['qcm'], array('libelle' => $une_info['qcm_libelle'], 'note' => $une_info['res_note'], 'nb_question' => $nb_question_max));
+				array_push($liste_des_etudiant_qcm[$key]['qcm'], array('id' => $une_info['res_id'], 'valide' => $une_info['res_valide'], 'libelle' => $une_info['qcm_libelle'], 'note' => $une_info['res_note'], 'nb_question' => $nb_question_max));
 			}
 		}
 	}
@@ -59,7 +59,6 @@
 	<tr>
         <td colspan="2" style="color: red;border-bottom: 1px black;text-align: center;">Notes des Etudiants </td>
     </tr> 
-
     <tr style="border-bottom: solid 1px #e0e0e0;">	
     	<td style="font-weight: bold;border-right: solid 1px #e0e0e0;" align="left">Etudiant</td>
     	<td style="font-weight: bold;text-align: left;" align="left">Resultat</td>
@@ -80,6 +79,24 @@
 	                    		<td><?php echo ucfirst($value['libelle']); ?></td>
 		                    	<td><?php echo $value['note'] . '/' . $value['nb_question']; ?></td>
 		                    	<td><?php echo round(($value['note']/$value['nb_question'])*20, 1) . '/20'; ?></td>
+		                    	<td>
+		                    		<?php 
+		                    		if($value['valide']) {
+		                    			?> <span class="badge badge-success">note validé</span> <?php
+		                    		} else {
+		                    			?>
+				                    		<button type="button" class="btn btn-success btn-xs" onclick="validerNote(<?php echo "'" . $value['id'] . "'"; ?>);">
+										      	<span class="glyphicon glyphicon-ok"></span>
+										    </button>
+		                    			<?php
+		                    		}
+		                    		?>
+								</td>
+		                    	<td>
+								    <button type="button" class="btn btn-danger btn-xs" onclick="supprimerNote(<?php echo "'" . $value['id'] . "'"; ?>);">
+								      	<span class="glyphicon glyphicon-remove"></span>
+								    </button>		                    		
+		                    	</td>
 	                    	</tr>
                     	<?php
                     	}?>
@@ -92,3 +109,93 @@
 <?php
 	$notes = ob_get_clean();
 ?>
+<script type="text/javascript">
+	
+	function supprimerNote(nid) {
+   	 	if(!confirm("Etes-vous sûr de vouloir redonner une chance à cet étudiant ? (" + nid + ")"))
+   	 		return false;
+
+   	 	$.ajax({
+			url: "ajax/note_delete.php",
+			async: true,
+			data: { id: nid },
+			type: "post",
+			success: function(result) {
+				// --
+				console.log(result);
+				for(var err in result)
+				{
+					switch(err) {
+						case '2':
+							afficherMessage(4, result[err]);
+							break;
+						case '1':
+							afficherMessage(1, result[err]);
+							break;
+					}
+				}
+			},
+			complete: function() {
+				// A function to be called when the request finishes (after success and error callbacks are executed) - from jquery docs
+			   	// do smth if you need
+			   document.location.reload();
+			},
+			dataType: "json"
+		});
+
+   	 	return true;
+	}
+
+	function validerNote(nid) {
+   	 	$.ajax({
+			url: "ajax/note_valider.php",
+			async: true,
+			data: { id: nid },
+			type: "post",
+			success: function(result) {
+				// --
+				console.log(result);
+				for(var err in result)
+				{
+					switch(err) {
+						case '2':
+							afficherMessage(4, result[err]);
+							break;
+						case '1':
+							afficherMessage(1, result[err]);
+							break;
+					}
+				}
+			},
+			complete: function() {
+				// A function to be called when the request finishes (after success and error callbacks are executed) - from jquery docs
+			   	// do smth if you need
+			   document.location.reload();
+			},			
+			dataType: "json"
+		});
+	}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

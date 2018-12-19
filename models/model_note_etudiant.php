@@ -19,6 +19,7 @@
 	$prepared_request->execute(['user_id' => $utilisateur->getId()]);
 
 	$note_de_etudiant = $prepared_request->fetchAll(PDO::FETCH_ASSOC);
+	//print_r($note_de_etudiant);
 
 	foreach ($note_de_etudiant as $key => $value) {
 		# code...
@@ -38,11 +39,12 @@
 	ob_start();
 ?>
 	<tr>
-	    <td colspan="3" style="color: red;border-bottom: 1px black;text-align: center;">Notes de l'étudiant  <?php echo ucfirst($utilisateur->getPrenom()) . ' ' . ucfirst($utilisateur->getNom()); ?>  </td>
+	    <td colspan="4" style="color: red;border-bottom: 1px black;text-align: center;">Notes de l'étudiant  <?php echo ucfirst($utilisateur->getPrenom()) . ' ' . ucfirst($utilisateur->getNom()); ?>  </td>
 	</tr> 
 
 	<tr>	
 		<td style="font-weight: bold;">Qcm</td>
+		<td style="font-weight: bold;">validé</td>
 		<td style="font-weight: bold;">Nombre de réponses correctes</td>
 		<td style="font-weight: bold;">Note</td>
 	</tr>
@@ -52,6 +54,15 @@
 	 	?>
 	 	<tr>	
 	    	<td><?php echo ucfirst($value['qcm_libelle']); ?></td>
+	    	<td>
+	    		<?php
+	    			if($value['res_valide'] == 0) {
+	    				?> <span class="label label-danger">non validé</span><?php
+	    			} else {
+	    				?> <span class="label label-success">Validé</span><?php
+	    			}
+	    		?>
+	    	</td>	    	
 	    	<td><?php echo $value['res_note'] . '/' . $value['nb_question']; ?></td>
 	    	<td><?php echo ($value['res_note']/$value['nb_question'])*20 . '/20'; ?></td>
 	    </tr><?php
